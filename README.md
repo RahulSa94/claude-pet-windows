@@ -95,6 +95,10 @@ Claude Code ──hook──▶ pet_hook.py ──POST 127.0.0.1:47319/event─�
 - `art/dog`: Rocky, from the Claude Pet Dog vector library (`tools/extract_dog.py`)
 - `art/cat`: Snowy, from the Snowwhite cat vector study (`tools/extract_cat.js`)
 
+## License
+
+[MIT](LICENSE) © 2026 Rahul Saha
+
 ---
 
 Not affiliated with Anthropic. "Claude" and "Claude Code" are trademarks of Anthropic, PBC.
