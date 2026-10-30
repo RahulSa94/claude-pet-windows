@@ -1,0 +1,52 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Tail -->
+                    <path d="M55 125 C35 110 20 120 28 138 C38 145 50 135 58 128 Z" fill="#B45309"/>
+
+                    <!-- Ears -->
+                    <path d="M62 62 C46 72 38 95 48 102 C58 100 64 82 66 70 Z" fill="#78350F"/>
+                    <path d="M128 62 C144 72 152 95 142 102 C132 100 126 82 124 70 Z" fill="#78350F"/>
+
+                    <!-- Body -->
+                    <ellipse cx="95" cy="120" rx="36" ry="44" fill="#D97706"/>
+                    <ellipse cx="95" cy="126" rx="24" ry="32" fill="#FEF3C7"/>
+
+                    <!-- Right Arm Holding Clipboard -->
+                    <path d="M125 115 C145 108 152 90 132 85 C122 95 120 110 125 115 Z" fill="#D97706"/>
+
+                    <!-- Head -->
+                    <circle cx="95" cy="74" r="32" fill="#D97706"/>
+                    <ellipse cx="95" cy="84" rx="16" ry="12" fill="#FEF3C7"/>
+                    <ellipse cx="95" cy="78" rx="5" ry="4" fill="#1E293B"/>
+
+                    <!-- Eyes & Glasses -->
+                    <circle cx="79" cy="70" r="6" fill="#1E293B"/>
+                    <circle cx="111" cy="70" r="6" fill="#1E293B"/>
+                    <circle cx="77" cy="68" r="2" fill="#FFFFFF"/>
+                    <circle cx="109" cy="68" r="2" fill="#FFFFFF"/>
+
+                    <circle cx="79" cy="70" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                    <circle cx="111" cy="70" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                    <line x1="94" y1="70" x2="96" y2="70" stroke="#1E293B" stroke-width="3.5"/>
+
+                    <!-- Clipboard -->
+                    <g transform="translate(112, 86) rotate(8)">
+                        <rect x="0" y="0" width="55" height="72" rx="6" fill="#78350F"/>
+                        <rect x="4" y="6" width="47" height="60" rx="4" fill="#FFFFFF"/>
+                        <rect x="18" y="-4" width="19" height="10" rx="3" fill="#94A3B8"/>
+                        
+                        <rect x="9" y="15" width="9" height="9" rx="2" fill="#10B981"/>
+                        <path d="M11 19 L14 22 L17 17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="22" y1="19" x2="44" y2="19" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <rect x="9" y="31" width="9" height="9" rx="2" fill="#10B981"/>
+                        <path d="M11 35 L14 38 L17 33" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="22" y1="35" x2="40" y2="35" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+
+                        <rect x="9" y="47" width="9" height="9" rx="2" fill="#CBD5E1"/>
+                        <line x1="22" y1="51" x2="45" y2="51" stroke="#94A3B8" stroke-width="2.5" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Paws -->
+                    <ellipse cx="78" cy="165" rx="10" ry="7" fill="#B45309"/>
+                    <ellipse cx="112" cy="165" rx="10" ry="7" fill="#B45309"/>
+                </svg>

@@ -1,0 +1,40 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Blue Shield Protection Shield -->
+                    <circle cx="100" cy="95" r="76" fill="#60A5FA" fill-opacity="0.15" stroke="#3B82F6" stroke-width="2.5" stroke-dasharray="6 6"/>
+
+                    <!-- Tail -->
+                    <path d="M60 125 C40 110 25 120 33 138 C43 145 55 135 63 128 Z" fill="#B45309"/>
+
+                    <!-- Ears Alert Up -->
+                    <path d="M68 58 C52 38 42 22 56 18 C68 22 75 40 78 54 Z" fill="#78350F"/>
+                    <path d="M128 58 C144 38 154 22 140 18 C128 22 121 40 118 54 Z" fill="#78350F"/>
+
+                    <!-- Body -->
+                    <ellipse cx="100" cy="120" rx="36" ry="44" fill="#D97706"/>
+                    <ellipse cx="100" cy="126" rx="24" ry="32" fill="#FEF3C7"/>
+
+                    <!-- Head -->
+                    <circle cx="100" cy="74" r="32" fill="#D97706"/>
+                    <ellipse cx="100" cy="84" rx="16" ry="12" fill="#FEF3C7"/>
+                    <ellipse cx="100" cy="78" rx="5" ry="4" fill="#1E293B"/>
+
+                    <!-- Glowing Blue Glasses -->
+                    <circle cx="84" cy="70" r="16" stroke="#2563EB" stroke-width="3.5" fill="#38BDF8" fill-opacity="0.35"/>
+                    <circle cx="116" cy="70" r="16" stroke="#2563EB" stroke-width="3.5" fill="#38BDF8" fill-opacity="0.35"/>
+                    <line x1="100" y1="70" x2="100" y2="70" stroke="#2563EB" stroke-width="3.5"/>
+
+                    <circle cx="84" cy="70" r="6" fill="#1E293B"/>
+                    <circle cx="116" cy="70" r="6" fill="#1E293B"/>
+                    <circle cx="82" cy="68" r="2" fill="#FFFFFF"/>
+                    <circle cx="114" cy="68" r="2" fill="#FFFFFF"/>
+
+                    <!-- Floating Alert Badge -->
+                    <g transform="translate(24, 40)">
+                        <circle cx="14" cy="14" r="14" fill="#EF4444"/>
+                        <text x="14" y="21" text-anchor="middle" fill="#FFFFFF" font-weight="extrabold" font-size="17">!</text>
+                    </g>
+
+                    <!-- Paws -->
+                    <ellipse cx="83" cy="165" rx="10" ry="7" fill="#B45309"/>
+                    <ellipse cx="117" cy="165" rx="10" ry="7" fill="#B45309"/>
+                </svg>

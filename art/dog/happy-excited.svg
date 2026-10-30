@@ -1,0 +1,38 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- High Wagging Tail -->
+                    <path d="M55 110 C35 85 20 95 28 118 C38 125 50 120 58 115 Z" fill="#B45309"/>
+
+                    <!-- Ears Up & Bouncy -->
+                    <path d="M68 54 C52 34 42 18 56 14 C68 18 75 36 78 50 Z" fill="#78350F"/>
+                    <path d="M132 54 C148 34 158 18 144 14 C132 18 125 36 122 50 Z" fill="#78350F"/>
+
+                    <!-- Body -->
+                    <ellipse cx="100" cy="118" rx="36" ry="44" fill="#D97706"/>
+                    <ellipse cx="100" cy="124" rx="24" ry="32" fill="#FEF3C7"/>
+
+                    <!-- Head -->
+                    <circle cx="100" cy="72" r="32" fill="#D97706"/>
+                    <ellipse cx="100" cy="82" rx="16" ry="12" fill="#FEF3C7"/>
+                    <ellipse cx="100" cy="76" rx="5" ry="4" fill="#1E293B"/>
+
+                    <!-- Glasses -->
+                    <circle cx="84" cy="68" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                    <circle cx="116" cy="68" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                    <line x1="99" y1="68" x2="101" y2="68" stroke="#1E293B" stroke-width="3.5"/>
+
+                    <!-- Sparkle Eyes -->
+                    <polygon points="84,60 87,65 92,66 88,70 89,75 84,72 79,75 80,70 76,66 81,65" fill="#1E293B"/>
+                    <polygon points="116,60 119,65 124,66 120,70 121,75 116,72 111,75 112,70 108,66 113,65" fill="#1E293B"/>
+
+                    <!-- Big Happy Open Mouth & Floppy Tongue -->
+                    <path d="M88 82 Q100 98 112 82 Z" fill="#1E293B"/>
+                    <path d="M93 86 C93 86 100 102 107 86 Z" fill="#F43F5E"/>
+
+                    <!-- Rosy Cheeks -->
+                    <ellipse cx="68" cy="76" rx="6" ry="4" fill="#F43F5E" opacity="0.5"/>
+                    <ellipse cx="132" cy="76" rx="6" ry="4" fill="#F43F5E" opacity="0.5"/>
+
+                    <!-- Paws -->
+                    <ellipse cx="83" cy="162" rx="10" ry="7" fill="#B45309"/>
+                    <ellipse cx="117" cy="162" rx="10" ry="7" fill="#B45309"/>
+                </svg>

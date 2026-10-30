@@ -1,0 +1,51 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Music Notes -->
+                    <path d="M22 45 Q28 32 34 38 T44 32" stroke="#EC4899" stroke-width="3" fill="none"/>
+                    <circle cx="22" cy="47" r="4" fill="#EC4899"/>
+                    <path d="M162 38 Q168 25 174 32 T184 25" stroke="#8B5CF6" stroke-width="3" fill="none"/>
+                    <circle cx="162" cy="40" r="4" fill="#8B5CF6"/>
+
+                    <g transform="rotate(5 100 110)">
+                        <!-- Wagging Tail -->
+                        <path d="M60 120 C40 100 25 110 32 128 C42 135 55 128 62 122 Z" fill="#B45309"/>
+
+                        <!-- Left Ear Up -->
+                        <path d="M68 58 C52 38 42 22 56 18 C68 22 75 40 78 54 Z" fill="#78350F"/>
+                        <!-- Right Ear Bounce -->
+                        <path d="M128 58 C144 38 154 22 140 18 C128 22 121 40 118 54 Z" fill="#78350F"/>
+
+                        <!-- Dog Body -->
+                        <ellipse cx="100" cy="118" rx="36" ry="44" fill="#D97706"/>
+                        <!-- Chest Patch -->
+                        <ellipse cx="100" cy="124" rx="24" ry="32" fill="#FEF3C7"/>
+
+                        <!-- Raised Dancing Paws -->
+                        <path d="M68 102 C50 85 38 65 52 58 C62 66 68 85 72 98 Z" fill="#D97706"/>
+                        <circle cx="48" cy="62" r="7" fill="#FEF3C7"/>
+
+                        <path d="M132 102 C150 85 162 65 148 58 C138 66 132 85 128 98 Z" fill="#D97706"/>
+                        <circle cx="152" cy="62" r="7" fill="#FEF3C7"/>
+
+                        <!-- Head -->
+                        <circle cx="100" cy="74" r="32" fill="#D97706"/>
+                        <ellipse cx="100" cy="84" rx="16" ry="12" fill="#FEF3C7"/>
+                        <!-- Nose -->
+                        <ellipse cx="100" cy="78" rx="5" ry="4" fill="#1E293B"/>
+
+                        <!-- Eyes & Glasses -->
+                        <circle cx="83" cy="70" r="14" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                        <circle cx="117" cy="70" r="14" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                        <line x1="97" y1="70" x2="103" y2="70" stroke="#1E293B" stroke-width="3.5"/>
+
+                        <path d="M76 70 Q83 62 90 70" stroke="#1E293B" stroke-width="3" stroke-linecap="round" fill="none"/>
+                        <path d="M110 70 Q117 62 124 70" stroke="#1E293B" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+                        <!-- Happy Open Mouth & Tongue -->
+                        <path d="M92 85 Q100 95 108 85 Z" fill="#1E293B"/>
+                        <path d="M96 88 Q100 97 104 88 Z" fill="#F43F5E"/>
+
+                        <!-- Feet Paws -->
+                        <ellipse cx="80" cy="165" rx="10" ry="7" fill="#B45309"/>
+                        <ellipse cx="120" cy="165" rx="10" ry="7" fill="#B45309"/>
+                    </g>
+                </svg>

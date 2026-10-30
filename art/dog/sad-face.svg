@@ -1,0 +1,41 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Tail Low -->
+                    <path d="M60 145 C45 155 35 160 40 168 C50 168 58 155 64 148 Z" fill="#B45309"/>
+
+                    <!-- Drooping Ears -->
+                    <path d="M68 72 C50 82 38 115 48 122 C60 120 66 98 72 82 Z" fill="#78350F"/>
+                    <path d="M132 72 C150 82 162 115 152 122 C140 120 134 98 128 82 Z" fill="#78350F"/>
+
+                    <!-- Body -->
+                    <ellipse cx="100" cy="124" rx="36" ry="42" fill="#D97706"/>
+                    <ellipse cx="100" cy="128" rx="24" ry="30" fill="#FEF3C7"/>
+
+                    <!-- Head Drooped -->
+                    <circle cx="100" cy="80" r="32" fill="#D97706"/>
+                    <ellipse cx="100" cy="90" rx="16" ry="12" fill="#FEF3C7"/>
+                    <ellipse cx="100" cy="84" rx="5" ry="4" fill="#1E293B"/>
+
+                    <!-- Sad Eyebrows & Eyes -->
+                    <path d="M72 66 L90 73" stroke="#78350F" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M128 66 L110 73" stroke="#78350F" stroke-width="3.5" stroke-linecap="round"/>
+
+                    <circle cx="84" cy="78" r="6" fill="#1E293B"/>
+                    <circle cx="116" cy="78" r="6" fill="#1E293B"/>
+
+                    <!-- Tear Drop -->
+                    <path d="M72 86 C72 86 68 94 72 98 C75 100 78 98 78 94 C78 90 72 86 72 86 Z" fill="#38BDF8"/>
+
+                    <!-- Glasses Slanted -->
+                    <g transform="rotate(3 100 78)">
+                        <circle cx="84" cy="78" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                        <circle cx="116" cy="78" r="15" stroke="#1E293B" stroke-width="3.5" fill="none"/>
+                        <line x1="99" y1="78" x2="101" y2="78" stroke="#1E293B" stroke-width="3.5"/>
+                    </g>
+
+                    <!-- Downward Sad Mouth -->
+                    <path d="M92 94 Q100 88 108 94" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+                    <!-- Paws -->
+                    <ellipse cx="83" cy="165" rx="10" ry="7" fill="#B45309"/>
+                    <ellipse cx="117" cy="165" rx="10" ry="7" fill="#B45309"/>
+                </svg>

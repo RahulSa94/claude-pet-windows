@@ -1,0 +1,49 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Red Flying Cape -->
+                    <path d="M70 90 Q30 95 10 120 Q50 145 90 125 Z" fill="#EF4444"/>
+                    <path d="M70 90 Q35 105 20 135 Q55 140 85 122 Z" fill="#DC2626"/>
+
+                    <!-- Wagging Tail Horizontal -->
+                    <path d="M40 108 Q20 102 10 108 Q15 116 35 115 Z" fill="#B45309"/>
+
+                    <!-- Hind Legs Super Flight Pose -->
+                    <ellipse cx="58" cy="118" rx="14" ry="8" fill="#D97706" transform="rotate(-10 58 118)"/>
+                    <ellipse cx="50" cy="120" rx="8" ry="6" fill="#F59E0B"/>
+
+                    <!-- Main Body horizontal stretch -->
+                    <ellipse cx="100" cy="108" rx="42" ry="24" fill="#D97706" transform="rotate(-12 100 108)"/>
+                    <ellipse cx="102" cy="112" rx="34" ry="16" fill="#FEF3C7" transform="rotate(-12 102 112)"/>
+
+                    <!-- Front Arms Outstretched -->
+                    <path d="M130 98 Q165 90 185 88 C188 94 178 104 140 108 Z" fill="#D97706"/>
+                    <circle cx="183" cy="92" r="6" fill="#FEF3C7"/>
+
+                    <!-- Flapping Floppy Ear Left -->
+                    <path d="M102 68 C80 60 60 70 65 85 C75 90 92 82 98 72 Z" fill="#78350F"/>
+
+                    <!-- Dog Head -->
+                    <circle cx="128" cy="78" r="28" fill="#D97706"/>
+                    <!-- Snout & Muzzle -->
+                    <ellipse cx="144" cy="84" rx="15" ry="12" fill="#FEF3C7"/>
+                    <!-- Cute Black Nose -->
+                    <ellipse cx="152" cy="80" rx="5" ry="4" fill="#1E293B"/>
+                    <circle cx="151" cy="79" r="1.5" fill="#FFFFFF"/>
+
+                    <!-- Dog Glasses -->
+                    <circle cx="122" cy="74" r="12" stroke="#1E293B" stroke-width="3" fill="none"/>
+                    <circle cx="142" cy="74" r="12" stroke="#1E293B" stroke-width="3" fill="none"/>
+                    <line x1="134" y1="74" x2="130" y2="74" stroke="#1E293B" stroke-width="3"/>
+
+                    <!-- Luminous Eyes Behind Glasses -->
+                    <circle cx="122" cy="74" r="5" fill="#1E293B"/>
+                    <circle cx="142" cy="74" r="5" fill="#1E293B"/>
+                    <circle cx="120" cy="72" r="2" fill="#FFFFFF"/>
+                    <circle cx="140" cy="72" r="2" fill="#FFFFFF"/>
+
+                    <!-- Flapping Ear Right -->
+                    <path d="M138 62 C150 48 168 52 162 68 C152 72 142 68 138 62 Z" fill="#78350F"/>
+
+                    <!-- Wind Swooshes -->
+                    <path d="M15 80 Q45 85 70 78" stroke="#CBD5E1" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round"/>
+                    <path d="M30 145 Q65 150 95 142" stroke="#CBD5E1" stroke-width="2.5" stroke-dasharray="4 4" stroke-linecap="round"/>
+                </svg>
