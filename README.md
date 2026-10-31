@@ -4,7 +4,7 @@ A dog or a cat that lives on your Windows desktop, wanders along the taskbar and
 [Claude Code](https://claude.com/claude-code) is doing: the CLI and the Code tab of the Claude desktop app.
 
 - **Rocky** the dog, in glasses, or **Snowy** the white cat with a pink bow. Switch any time, and name them whatever you like.
-- **Follows Claude:** thinks while Claude thinks, gets busy while it runs tools (the bubble says which), runs to your cursor when Claude needs an answer, does zoomies when a task is done ("my-app done!").
+- **Follows Claude:** thinks while Claude thinks, gets busy while it runs tools (the bubble says which), runs to your cursor when Claude needs an answer or a permission, does zoomies when a task is done ("my-app done!"). It settles down by itself when you press Esc or reject a tool. With several sessions open, the one that needs you comes first, then one that just finished, then busy ones.
 - **Usage limit:** when Claude hits its limit, the pet tells you when it resets ("resets 3:00 PM", "in 1h 12m").
 - **Voice:** when you talk to Claude, the pet holds up a microphone.
 - **Wellbeing reminders:** water, stretch breaks, 20-20-20 eye breaks and screen-time milestones. They count only time you're actually at the PC.
@@ -89,6 +89,7 @@ Claude Code ──hook──▶ pet_hook.py ──POST 127.0.0.1:47319/event─�
 | `POST /event {"pet_remind": "water"}` | show a reminder now: `water`, `stretch`, `eyes`, `screen` |
 | `POST /event {"pet_control": "switch", "pet": "cat"}` | swap pets |
 | `GET /state`, `GET /health` | current state, and whether it's running |
+| `GET /events` | the last 60 hooks received, for checking that Claude Code is reaching the pet |
 
 ## Art
 

@@ -2,7 +2,8 @@
 
 Claude Code hooks POST their JSON to http://127.0.0.1:<port>/event (see pet_hook.py).
 The pet follows the session that matters most: one that needs you wins over one that
-is working, which wins over one that is thinking.
+just finished, which wins over one that is working, then one that is thinking. Endings that
+send no hook (Esc, a rejected tool, a usage limit) are read from the session's transcript.
 
   idle      wanders along the taskbar: hops about, plays, chases your cursor, naps, hides
   thinking  sits and watches you, thought bubble
@@ -19,6 +20,7 @@ import ctypes
 import ctypes.wintypes
 import json
 import math
+import os
 import queue
 import random
 import re
@@ -28,6 +30,8 @@ import time
 import tkinter as tk
 import tkinter.font as tkfont
 import urllib.request
+from collections import deque
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -71,11 +75,17 @@ EYE_BREAK = 20
 
 # Usage-limit messages Claude Code writes to the transcript, old and new wording:
 #   "Claude AI usage limit reached|1761234567"   "5-hour limit reached ∙ resets 3pm (Asia/Calcutta)"
+#   "You've hit your session limit · resets 2:40pm (Asia/Kolkata)"
 LIMIT_EPOCH = re.compile(r"usage limit reached\|(\d{10})")
-LIMIT_TEXT = re.compile(r"(?:limit reached|hit your (?:usage )?limit)[^\n\"]{0,40}?resets?\s+(?:at\s+)?"
+LIMIT_TEXT = re.compile(r"(?:limit reached|hit your (?:[\w-]+ )?limit)[^\n\"]{0,40}?resets?\s+(?:at\s+)?"
                         r"(\d{1,2})(?::(\d{2}))?\s*([ap]m)", re.I)
 
-PRIORITY = {"waiting": 6, "limit": 5.5, "error": 5, "working": 4, "thinking": 3, "happy": 2, "idle": 1, "sleeping": 0}
+# Several sessions at once: show the one that matters most. A finished task outranks a busy
+# one so "done!" isn't hidden by another session that's still working.
+PRIORITY = {"waiting": 6, "limit": 5.5, "error": 5, "happy": 4.5, "working": 4, "thinking": 3, "idle": 1,
+            "sleeping": 0}
+BUSY = ("thinking", "working", "waiting")
+BUSY_STALE = 10 * 60  # a busy session with no hook and no transcript change this long has stopped
 TOOL_LABELS = {"bash": ">_ shell", "edit": "editing", "read": "reading", "web": "browsing",
                "agent": "agents", "other": "working"}
 
@@ -178,16 +188,49 @@ def find_limit(text, now=None):
     return found if found and found > now else None
 
 
-def transcript_tail(path, size=24000):
-    """The last few entries of a session transcript."""
+def entry_time(entry):
+    try:
+        return datetime.fromisoformat(entry["timestamp"].replace("Z", "+00:00")).timestamp()
+    except Exception:
+        return 0.0
+
+
+def transcript_outcome(path, after=0.0, size=64000):
+    """How the session's latest turn ended, from its transcript: ("limit", reset epoch),
+    ("error", None), ("interrupted", None), or None if it ended normally or is still going.
+
+    Only the newest user or assistant entry counts, and only if it was written after `after`
+    (the latest prompt), so your own messages that mention a limit can't trigger one and an
+    earlier turn's ending can't leak into this one."""
     try:
         with open(path, "rb") as f:
             f.seek(0, 2)
             f.seek(max(0, f.tell() - size))
             lines = f.read().decode("utf-8", "replace").splitlines()
-        return "\n".join(lines[-6:])
     except Exception:
-        return ""
+        return None
+    for line in reversed(lines):
+        try:
+            entry = json.loads(line)
+        except ValueError:
+            continue
+        if entry.get("type") not in ("user", "assistant") or entry.get("isSidechain"):
+            continue
+        if entry_time(entry) < after - 2:
+            return None
+        content = (entry.get("message") or {}).get("content")
+        texts = [content] if isinstance(content, str) else [
+            c.get("text", "") for c in content or [] if isinstance(c, dict) and c.get("type") == "text"]
+        text = " ".join(texts)
+        if entry["type"] == "user":
+            return ("interrupted", None) if text.startswith("[Request interrupted") else None
+        if entry.get("isApiErrorMessage"):
+            reset = find_limit(text)
+            if reset or entry.get("error") == "rate_limit":
+                return "limit", reset
+            return "error", None
+        return None
+    return None
 
 
 def load_poses(kind):
@@ -218,6 +261,8 @@ class Session:
         self.state, self.tool, self.until, self.project = "idle", "other", None, ""
         self.reset = None  # when a usage limit lifts
         self.updated = time.time()
+        self.transcript, self.mtime = "", 0.0
+        self.prompted = 0.0  # when you last sent this session a prompt
 
 
 class Pet:
@@ -243,6 +288,8 @@ class Pet:
         self.last_track = time.time()
         self.done_project = ""
         self.limit_reset = None
+        self.next_check = 0.0
+        self.log = deque(maxlen=60)
 
         try:
             ctypes.windll.shcore.SetProcessDpiAwareness(2)
@@ -542,10 +589,15 @@ class Pet:
         if ev.get("hook_event_name") == "SessionEnd":
             self.sessions.pop(sid, None)
             return
+        if ev.get("hook_event_name"):  # for GET /events: what the hooks actually sent, newest last
+            self.log.append({"t": time.strftime("%H:%M:%S"), "session": sid[:8], "hook": ev["hook_event_name"],
+                             "tool": ev.get("tool_name") or ev.get("notification_type") or ""})
         s = self.sessions.setdefault(sid, Session())
         s.updated = now
         if ev.get("cwd"):
             s.project = Path(ev["cwd"]).name
+        if ev.get("transcript_path"):
+            s.transcript = ev["transcript_path"]
 
         if "pet_state" in ev:  # forced state, for scripts and the demo
             dur = ev.get("pet_duration")
@@ -559,6 +611,8 @@ class Pet:
             s.state = "idle"
         elif name in ("UserPromptSubmit", "PreCompact", "PostToolUse"):
             s.state = "thinking"
+            if name == "UserPromptSubmit":
+                s.prompted = now
         elif name == "PreToolUse":
             if ev.get("tool_name") == "AskUserQuestion":
                 s.state = "waiting"
@@ -571,10 +625,16 @@ class Pet:
             idle_ping = ev.get("notification_type") == "idle_prompt" or "waiting for your input" in msg
             if not idle_ping:
                 s.state = "waiting"
-        elif name == "Stop":
-            reset = find_limit(transcript_tail(ev.get("transcript_path") or "") + "\n" + str(ev.get("message", "")))
-            if reset:
-                s.state, s.until, s.reset = "limit", reset, reset
+        elif name in ("Stop", "StopFailure"):
+            outcome = (transcript_outcome(s.transcript, s.prompted)
+                       or (("error", None) if name == "StopFailure" else None))
+            if outcome and outcome[0] == "limit":
+                reset = outcome[1] or now + 3600
+                s.state, s.until, s.reset = "limit", reset, outcome[1]
+            elif outcome and outcome[0] == "error":
+                s.state, s.until = "error", now + 4
+            elif outcome:  # interrupted: no celebration
+                s.state = "idle"
             else:
                 s.state, s.until = "happy", now + 5
                 self.done_project = s.project
@@ -584,8 +644,32 @@ class Pet:
             s.reset = find_limit(ev["message"])
             s.state, s.until = "limit", s.reset
 
+    def check_busy(self, now):
+        """Every couple of seconds: catch busy sessions that ended without a hook. Pressing Esc,
+        rejecting a tool, or a usage-limit error only show up in the transcript."""
+        for s in self.sessions.values():
+            if s.state not in BUSY or not s.transcript:
+                continue
+            try:
+                mtime = os.path.getmtime(s.transcript)
+            except OSError:
+                continue
+            if mtime != s.mtime:
+                s.mtime = mtime
+                outcome = transcript_outcome(s.transcript, s.prompted)
+                if outcome and outcome[0] == "interrupted":
+                    s.state, s.until = "idle", None
+                elif outcome and outcome[0] == "limit":
+                    s.state, s.reset = "limit", outcome[1]
+                    s.until = outcome[1] or now + 3600
+            elif now - max(s.updated, mtime) > BUSY_STALE:
+                s.state, s.until = "idle", None
+
     def current(self):
         now = time.time()
+        if now >= self.next_check:
+            self.next_check = now + 2
+            self.check_busy(now)
         for sid, s in list(self.sessions.items()):
             if now - s.updated > STALE_AFTER:
                 del self.sessions[sid]
@@ -988,9 +1072,10 @@ class Pet:
         elif state == "error":
             self.bubble(hx, hy, "oops...")
         elif state == "limit":
-            reset = self.limit_reset or now
-            clock = time.strftime("%I:%M %p", time.localtime(reset)).lstrip("0")
-            texts = ["limit reached", f"resets {clock}", f"in {fmt_minutes(max(60, reset - now))}"]
+            reset = self.limit_reset
+            clock = time.strftime("%I:%M %p", time.localtime(reset)).lstrip("0") if reset else ""
+            texts = (["limit reached", f"resets {clock}", f"in {fmt_minutes(max(60, reset - now))}"] if reset
+                     else ["limit reached", "taking a break"])
             self.bubble(hx, hy, texts[int(now / 1.5) % 3])
 
     def look_offset(self):
@@ -1042,6 +1127,8 @@ class Pet:
                     self._send(200, {"app": "claude-pet", "ok": True})
                 elif self.path == "/state":
                     self._send(200, pet.public_state)
+                elif self.path == "/events":
+                    self._send(200, list(pet.log))
                 else:
                     self._send(404, {"error": "not found"})
 
