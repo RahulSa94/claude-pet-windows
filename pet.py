@@ -5,10 +5,12 @@ The pet follows the session that matters most: one that needs you wins over one 
 just finished, which wins over one that is working, then one that is thinking. Endings that
 send no hook (Esc, a rejected tool, a usage limit) are read from the session's transcript.
 
-  idle      wanders along the taskbar: hops about, plays, chases your cursor, naps, hides
+  idle      wanders along the taskbar: hops about, plays, naps, hides
   thinking  sits and watches you, thought bubble
   working   busy pose, bubble shows the tool
-  waiting   runs to your cursor and jumps
+  waiting   hops on the spot for attention
+
+It never comes after your cursor; only its eyes follow it.
   happy     zoomies, then dances
   error     sad or puzzled face
   sleeping  eyes closed, breathing, zzz
@@ -690,12 +692,6 @@ class Pet:
         return state, tool
 
     # ---------- behaviour ----------
-    def cursor_x(self):
-        return self.clamp_x(self.root.winfo_pointerx() - self.W / 2)
-
-    def face_cursor(self):
-        self.facing = 1 if self.root.winfo_pointerx() > self.x + self.W / 2 else -1
-
     def move_toward(self, tx, speed, dt):
         """Head toward window-x tx; returns True once there."""
         dx = tx - self.x
@@ -713,9 +709,9 @@ class Pet:
             self.vy = -power * self.k
 
     def pick_action(self, now):
-        a = random.choices(["walk", "sit", "play", "dance", "chase", "nap", "spin"],
-                           [32, 20, 16, 8, 10, 9, 5])[0]
-        span = {"walk": (4, 8), "sit": (3, 6), "play": (3, 6), "dance": (2.5, 4), "chase": (4, 6),
+        a = random.choices(["walk", "sit", "play", "dance", "nap", "spin"],
+                           [32, 26, 18, 10, 9, 5])[0]
+        span = {"walk": (4, 8), "sit": (3, 6), "play": (3, 6), "dance": (2.5, 4),
                 "nap": (4, 7), "spin": (1.2, 1.2)}[a]
         self.action, self.action_start, self.action_until = a, now, now + random.uniform(*span)
         if a == "play":
@@ -772,18 +768,12 @@ class Pet:
         elif state == "working":
             pose = "work"
             anim.update(look="work", tail="slow", tilt=1.5 * math.sin(now * 3))
-        elif state == "waiting":
+        elif state == "waiting":  # stays put and hops for attention; only its eyes follow you
             anim.update(tail="fast", ears=8.0)
-            if self.move_toward(self.cursor_x(), 520, dt):
-                if not airborne:
-                    self.face_cursor()
-                    if now >= self.next_jump:
-                        self.jump(620)
-                        self.next_jump = now + 0.9
-                pose = "alert"
-            else:
-                pose = "run"
-                anim.update(look="ahead", bob=-10 + 4 * math.sin(now * 14))
+            if not airborne and now >= self.next_jump:
+                self.jump(620)
+                self.next_jump = now + 0.9
+            pose = "alert"
         elif state == "happy":
             anim.update(tail="fast", ears=8.0)
             if now - self.mode_since < 3:
@@ -800,33 +790,28 @@ class Pet:
         elif not self.reminder:
             pose = self.hide_and_seek(now, dt, anim) or self.wander(now, dt, anim)
 
-        # A reminder interrupts anything but Claude needing you: come to the cursor, then act it out.
+        # A reminder interrupts anything but Claude needing you: act it out right where it is.
         if self.reminder and not self.held and state != "waiting":
             kind = self.reminder["kind"]
             anim.update(gait=None, arms=0.0, breathe=False, tilt=0.0, bob=0.0, tail="slow", ears=0.0)
-            if not self.reminder.get("arrived") and not self.move_toward(self.cursor_x(), 520, dt):
-                pose = "run"
-                anim.update(look="ahead", bob=-10 + 4 * math.sin(now * 14))
+            self.reminder["arrived"] = True
+            if kind == "water":
+                pose = "drink"
+                anim.update(look="down", bob=1.5 * abs(math.sin(now * 5)))
+            elif kind == "stretch":
+                pose = "stretch"
+                anim.update(tail="fast", ears=8.0, arms=1.0, tilt=10 * math.sin(now * 5),
+                            bob=-abs(math.sin(now * 5)) * 10)
+            elif kind == "eyes":
+                age = now - self.reminder["start"]
+                pose = "alert" if age < 2 or age > EYE_BREAK + 2 else "sleep"
+                anim.update(look="ahead", breathe=pose == "sleep")
             else:
-                self.reminder["arrived"] = True
-                self.face_cursor()
-                if kind == "water":
-                    pose = "drink"
-                    anim.update(look="down", bob=1.5 * abs(math.sin(now * 5)))
-                elif kind == "stretch":
-                    pose = "stretch"
-                    anim.update(tail="fast", ears=8.0, arms=1.0, tilt=10 * math.sin(now * 5),
-                                bob=-abs(math.sin(now * 5)) * 10)
-                elif kind == "eyes":
-                    age = now - self.reminder["start"]
-                    pose = "alert" if age < 2 or age > EYE_BREAK + 2 else "sleep"
-                    anim.update(look="ahead", breathe=pose == "sleep")
-                else:
-                    pose = "alert"
-                    anim.update(ears=6.0, tail="fast")
-                    if now >= self.next_jump and not airborne:
-                        self.jump(420)
-                        self.next_jump = now + 1.6
+                pose = "alert"
+                anim.update(ears=6.0, tail="fast")
+                if now >= self.next_jump and not airborne:
+                    self.jump(420)
+                    self.next_jump = now + 1.6
 
         # You're talking to Claude: stop, face you and hold up the mic.
         if (self.voice or now < self.voice_test_until) and not self.held:
@@ -853,8 +838,6 @@ class Pet:
             anim["stretch"] = True
         if now < self.preview[1] and (self.preview[0] in self.poses or self.preview[0].startswith("play:")):
             pose = self.preview[0]
-        if not self.moving and not self.held and pose != "run" and self.action != "spin":
-            self.face_cursor()  # whenever it stands still, it turns to you
         self.pose, self.anim = pose, anim
 
     def hide_and_seek(self, now, dt, anim):
@@ -899,13 +882,6 @@ class Pet:
             else:
                 anim.update(gait="hop", look="ahead")
             return "sit"
-        if a == "chase":
-            if self.move_toward(self.cursor_x(), 360, dt):
-                self.face_cursor()
-                anim.update(tail="fast", ears=6.0)
-                return "excited"
-            anim.update(look="ahead", bob=-10 + 4 * math.sin(now * 14))
-            return "run"
         if a == "play":
             anim.update(tail="slow", bob=1.5 * abs(math.sin(now * 4)))
             return self.play_pose or "sit"

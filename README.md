@@ -4,11 +4,11 @@ A dog or a cat that lives on your Windows desktop, wanders along the taskbar and
 [Claude Code](https://claude.com/claude-code) is doing: the CLI and the Code tab of the Claude desktop app.
 
 - **Rocky** the dog, in glasses, or **Snowy** the white cat with a pink bow. Switch any time, and name them whatever you like.
-- **Follows Claude:** thinks while Claude thinks, gets busy while it runs tools (the bubble says which), runs to your cursor when Claude needs an answer or a permission, does zoomies when a task is done ("my-app done!"). It settles down by itself when you press Esc or reject a tool. With several sessions open, the one that needs you comes first, then one that just finished, then busy ones.
+- **Follows Claude:** thinks while Claude thinks, gets busy while it runs tools (the bubble says which), hops for attention when Claude needs an answer or a permission, does zoomies when a task is done ("my-app done!"). It settles down by itself when you press Esc or reject a tool. With several sessions open, the one that needs you comes first, then one that just finished, then busy ones.
 - **Usage limit:** when Claude hits its limit, the pet tells you when it resets ("resets 3:00 PM", "in 1h 12m").
 - **Voice:** when you talk to Claude, the pet holds up a microphone.
 - **Wellbeing reminders:** water, stretch breaks, 20-20-20 eye breaks and screen-time milestones. They count only time you're actually at the PC.
-- **Playful:** its eyes follow your cursor, it chases the cursor, naps when you're away, and plays hide and seek if you rush at it. Click to pet, drag to carry.
+- **Playful:** its eyes follow your cursor (the pet itself stays put), it naps when you're away, and plays hide and seek if you rush at it. Click to pet, drag to carry.
 - **Silent and light:** no sounds, no extra installs, just Python's standard library.
 
 ## Install
@@ -52,7 +52,7 @@ Each reminder fires after that many minutes of *active* screen time. Stepping aw
 
 | Reminder | Default | What the pet does |
 |---|---|---|
-| Water | 45 min | runs over and drinks |
+| Water | 45 min | drinks |
 | Stretch / move | 60 min | stretches |
 | Eye break (20-20-20) | 20 min | closes its eyes for a 20 s countdown |
 | Screen time | every 2 h | "2h on screen" |
